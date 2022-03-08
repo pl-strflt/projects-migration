@@ -1,0 +1,33 @@
+name: Migrate Projects
+
+on:
+  workflow_dispatch:
+    inputs:
+      owner:
+        description: Either the org name or the user name
+        required: true
+        type: string
+      legacy_project_board_name:
+        description: The name of the legacy project board
+        required: true
+        type: string
+      new_project_name:
+        description: The name of the new project
+        required: true
+        type: string
+      repo:
+        description: The name of the repository where non-issue cards will be turned into issues
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  migrate:
+    uses: galargh/projects-migration/.github/workflows/migrate_reusable.yml@main
+    with:
+      owner: ${{ github.event.inputs.owner }}
+      legacy_project_board_name: ${{ github.event.inputs.legacy_project_board_name }}
+      new_project_name: ${{ github.event.inputs.new_project_name }}
+      repo: ${{ github.event.inputs.repo }}
+    secrets:
+      token: ${{ secrets.MIGRATION_TOKEN }}

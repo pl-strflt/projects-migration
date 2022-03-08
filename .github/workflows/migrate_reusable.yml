@@ -1,0 +1,39 @@
+name: Migrate Projects (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      owner:
+        description: Either the org name or the user name
+        required: true
+        type: string
+      legacy_project_board_name:
+        description: The name of the legacy project board
+        required: true
+        type: string
+      new_project_name:
+        description: The name of the new project
+        required: true
+        type: string
+      repo:
+        description: The name of the repository where non-issue cards will be turned into issues
+        required: false
+        type: string
+        default: ''
+    secrets:
+      token:
+        description: GITHUB_TOKEN
+        required: true
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    name: Migrate legacy project board to new project
+    env:
+      GITHUB_TOKEN: ${{ secrets.token }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: galargh/projects-migration
+    - run: ./.github/scripts/migrate.sh '${{ inputs.owner }}' '${{ inputs.legacy_project_board_name }}' '${{ inputs.new_project_name }}' '${{ inputs.repo }}'
+      shell: bash
