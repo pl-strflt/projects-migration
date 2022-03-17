@@ -70,12 +70,13 @@ elif [[ "$type" == "Organization" ]]; then
               nodes {
                 id
                 name
+                settings
               }
             }
           }
         }
       }
-    }' -f org="${owner}" -f new_project_name="${new_project_name}" --jq '.data.user.projectsNext.nodes[0]'
+    }' -f org="${owner}" -f new_project_name="${new_project_name}" --jq '.data.organization.projectsNext.nodes[0]'
   )"
   echo "new_project=$(jq '.id' <<< "${new_project}")"
   echo "::endgroup::"
@@ -114,6 +115,9 @@ echo "::endgroup::"
 
 echo "::group::Synchronising cards"
 while read legacy_project_board_column_id; do
+  if [[ -z "$legacy_project_board_column_id" ]]; then
+    continue
+  fi
   echo "legacy_project_board_column_id=${legacy_project_board_column_id}"
   legacy_project_board_column_name="$(jq -r 'map(select(.id == $legacy_project_board_column_id)) | .[0].name' --argjson legacy_project_board_column_id "${legacy_project_board_column_id}" <<< "$legacy_project_board_columns")"
   echo "legacy_project_board_column_name=${legacy_project_board_column_name}"
