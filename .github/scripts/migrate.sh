@@ -161,7 +161,7 @@ while read legacy_project_board_column_id; do
     echo "new_project_item_id=${new_project_item_id}"
 
     if [[ ! -z "$new_project_status_field_option_id" ]]; then
-      gh api graphql -f query='mutation($new_project_id: ID!, $new_project_item_id: ID!, $new_project_status_field_id: ID!, $new_project_status_field_option_id: String!) {
+      > /dev/null gh api graphql -f query='mutation($new_project_id: ID!, $new_project_item_id: ID!, $new_project_status_field_id: ID!, $new_project_status_field_option_id: String!) {
         updateProjectNextItemField(input: {
           projectId: $new_project_id,
           itemId: $new_project_item_id,
