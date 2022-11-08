@@ -1,3 +1,5 @@
+❗ The project is now deprecated. Use GitHub's [official migration guide](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/migrating-from-projects-classic) instead.
+
 # How to migrate from GitHub Projects to GitHub Projects (Beta)?
 
 This is a short tutorial on how to automate the migration process between the legacy project boards and the new projects.
